@@ -25,7 +25,6 @@ function TFD.Initialize(eventCode, addOnName)
     if (addOnName ~= TFD.name) then
         return
     end
-    d("START INITIALIZING TFD")
 
     -- Unregister setup event
     EVENT_MANAGER:UnregisterForEvent("TFD", EVENT_ADD_ON_LOADED)
@@ -39,8 +38,6 @@ function TFD.Initialize(eventCode, addOnName)
 
     -- Register for Events
     TFD:RegisterForEvents()
-
-    d("DONE INITIALIZING TFD")
 end
 
 -----
@@ -82,7 +79,7 @@ function TFD.OnTargetChanged(eventCode)
     animOut:SetDuration(TFD.vars.fadeDurationMs)
     frame.timeline = timeOut
 
-    -- Otherwise perform the appropriate animation
+    -- Run the animation
     frame.timeline:SetPlaybackType(ANIMATION_PLAYBACK_ONE_SHOT,1)
     frame.timeline:PlayFromStart()
 end
