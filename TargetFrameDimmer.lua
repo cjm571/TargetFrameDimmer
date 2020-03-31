@@ -36,6 +36,14 @@ function TFD.Initialize(eventCode, addOnName)
     TFD.TARGET_WINDOW = ZO_TargetUnitFramereticleover
     TFD.Menu:Initialize()
 
+    -- Create a fade out animation and timeline
+    TFD.TARGET_WINDOW.anim, TFD.TARGET_WINDOW.timeline = CreateSimpleAnimation(ANIMATION_ALPHA, TFD.TARGET_WINDOW, 0)
+    TFD.TARGET_WINDOW.anim:SetAlphaValues(1.0, TFD.vars.finalOpacity/100)
+    TFD.TARGET_WINDOW.anim:SetEasingFunction(ZO_EaseOutQuadratic)  
+    TFD.TARGET_WINDOW.anim:SetDuration(TFD.vars.fadeDurationMs)
+
+    TFD.TARGET_WINDOW.timeline:SetPlaybackType(ANIMATION_PLAYBACK_ONE_SHOT,1)
+
     -- Register for Events
     TFD:RegisterForEvents()
 end
@@ -59,29 +67,24 @@ function TFD.OnTargetChanged(eventCode)
         return
     end
 
-    local unitName = GetUnitNameHighlightedByReticle()
+    -- Gather current target data
+    local curUnitName = GetUnitNameHighlightedByReticle()
 
-    if (unitName == "") then
+    -- Hide Target Frame when reticle leaves target to avoid flashing
+    if (curUnitName == "") then
         TFD.TARGET_WINDOW:SetHidden(true)
+        
+        -- Stop and reset progress to avoid "sticking" after animation completes
+        TFD.TARGET_WINDOW.timeline:Stop()
+        TFD.TARGET_WINDOW.timeline:SetProgress(0)
         return
     else
+         -- Ensure reticle is not hidden when we get a new target
         TFD.TARGET_WINDOW:SetHidden(false)
     end
 
-    local frame = TFD.TARGET_WINDOW
-    local opacityOut = 50
-    local opacityIn = 100
-
-    -- Create a fade out animation
-    local animOut, timeOut = CreateSimpleAnimation(ANIMATION_ALPHA,frame,0)
-    animOut:SetAlphaValues(1.0, TFD.vars.finalOpacity/100)
-    animOut:SetEasingFunction(ZO_EaseOutQuadratic)  
-    animOut:SetDuration(TFD.vars.fadeDurationMs)
-    frame.timeline = timeOut
-
-    -- Run the animation
-    frame.timeline:SetPlaybackType(ANIMATION_PLAYBACK_ONE_SHOT,1)
-    frame.timeline:PlayFromStart()
+    -- Play from current point in animation timeline
+    TFD.TARGET_WINDOW.timeline:PlayForward()
 end
 
 -----
@@ -92,8 +95,8 @@ function TFD.OnCombatStateChanged(eventCode, isInCombat)
     if not TFD.vars.preventDimInCombat then return end
 
     if isInCombat then
-        -- Set full opacity when entering combat
-        TFD.TARGET_WINDOW:SetAlpha(1.0)
+        -- Stop animation and set full opacity when entering combat
+        TFD.TARGET_WINDOW.timeline:PlayInstantlyToStart()
     else
         -- Trigger animation when exiting combat
         TFD.OnTargetChanged(eventCode)
