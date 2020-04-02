@@ -2,7 +2,7 @@
 -- Author:          CJ McAllister
 -- Creation Date:   2020-Mar-29
 -- 
--- Menu component file
+-- Menu and settings handling functions
 
 
 local TFD = TFD

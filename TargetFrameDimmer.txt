@@ -41,6 +41,10 @@
 
 TargetFrameDimmer.lua
 
+animation.lua
+
+events.lua
+
 menu.lua
 
 strings.lua
