@@ -14,7 +14,7 @@ TFF.settingsVersion = 1.0
 TFF.defaults = {
     ["inCombatOpacity"]             = 100,
     ["inCombatFadeDurationMs"]      = 250,
-    ["outOfCombatOpacity"]          = 50,
+    ["outOfCombatOpacity"]          = 40,
     ["outOfCombatFadeDurationMs"]   = 500,
 }
 

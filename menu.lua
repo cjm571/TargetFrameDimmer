@@ -36,6 +36,7 @@ function TFF.Menu:Initialize()
     LAM2:RegisterOptionControls("TFF_Menu", TFF.Menu.options)
 end
 
+
 -----
 -- Settings Update
 -----
