@@ -41,7 +41,8 @@ function TFD.Events.OnTargetChanged(eventCode)
         -- Register that we have lost a target for empty space
         TFD.Events.lastTargetLost = true
 
-        -- Reset the animation for the next go-round
+        -- Hide and reset the animation for the next go-round
+        TFD.TARGET_FRAME:SetHidden(true)
         TFD.Animation:Reset()
 
         d("Target lost - frame remaining hidden and rewinding animation.")
