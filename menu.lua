@@ -5,10 +5,15 @@
 -- Menu and settings handling functions
 
 
-local TFF = TFF
+
+-- Submodule declaration
 TFF.Menu = {}
 LAM2     = LibAddonMenu2
 
+
+-----
+-- Initialization
+-----
 function TFF.Menu:Initialize()
 
     -- Configure master panel
@@ -31,25 +36,32 @@ function TFF.Menu:Initialize()
     LAM2:RegisterOptionControls("TFF_Menu", TFF.Menu.options)
 end
 
-function TFF.Menu:Update(setting, value)
+-----
+-- Settings Update
+-----
+function TFF.Menu.Update(setting, value)
+    -- Set new value into settings
     TFF.vars[setting] = value
+
+    -- Re-init animations to reflect new settings
+    TFF.Animation:Initialize()
 end
 
+
+-----
+-- Menu Creation
+-----
 function TFF.Menu:PopulateOptions()
     TFF.Menu.options = {
         -----
-        -- Header
-        -----
-        {
-            type    = "header",
-            name    = GetString(TFF_Menu_Header),
-            width   = "full"
-        },
-
-        -----
         -- In-Combat
         -----
-
+        -- Header
+        {
+            type    = "header",
+            name    = GetString(TFF_InCombat_Header),
+            width   = "full"
+        },
         -- Opacity
         {
             type    = "slider",
@@ -57,9 +69,9 @@ function TFF.Menu:PopulateOptions()
             tooltip = GetString(TFF_Opac_Slider_Tooltip),
             min     = 0,
             max     = 100,
-            step    = 1,
+            step    = 5,
             getFunc = function() return TFF.vars.inCombatOpacity end,
-            setFunc = function(value) TFF.Menu:Update('inCombatOpacity', value) end,
+            setFunc = function(value) TFF.Menu.Update('inCombatOpacity', value) end,
             default = TFF.defaults.inCombatOpacity,
         },
         -- Duration
@@ -68,11 +80,44 @@ function TFF.Menu:PopulateOptions()
             name    = GetString(TFF_Dur_Slider_Title),
             tooltip = GetString(TFF_Dur_Slider_Tooltip),
             min     = 500,
-            max     = 5000,
-            step    = 100,
-            getFunc = function() return TFF.vars.fadeDurationMs end,
-            setFunc = function(value) TFF.Menu:Update('fadeDurationMs', value) end,
-            default = TFF.defaults.fadeDurationMs,
+            max     = 1000,
+            step    = 50,
+            getFunc = function() return TFF.vars.inCombatFadeDurationMs end,
+            setFunc = function(value) TFF.Menu.Update('inCombatFadeDurationMs', value) end,
+            default = TFF.defaults.inCombatFadeDurationMs,
+        },
+        -----
+        -- Out-of-Combat
+        -----
+        -- Header
+        {
+            type    = "header",
+            name    = GetString(TFF_OutOfCombat_Header),
+            width   = "full"
+        },
+        -- Opacity
+        {
+            type    = "slider",
+            name    = GetString(TFF_Opac_Slider_Title),
+            tooltip = GetString(TFF_Opac_Slider_Tooltip),
+            min     = 0,
+            max     = 100,
+            step    = 5,
+            getFunc = function() return TFF.vars.outOfCombatOpacity end,
+            setFunc = function(value) TFF.Menu.Update('outOfCombatOpacity', value) end,
+            default = TFF.defaults.outOfCombatOpacity,
+        },
+        -- Duration
+        {
+            type    = "slider",
+            name    = GetString(TFF_Dur_Slider_Title),
+            tooltip = GetString(TFF_Dur_Slider_Tooltip),
+            min     = 500,
+            max     = 2000,
+            step    = 50,
+            getFunc = function() return TFF.vars.outOfCombatFadeDurationMs end,
+            setFunc = function(value) TFF.Menu.Update('outOfCombatFadeDurationMs', value) end,
+            default = TFF.defaults.outOfCombatFadeDurationMs,
         },
     }
 end

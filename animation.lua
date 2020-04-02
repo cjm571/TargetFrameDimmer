@@ -8,6 +8,7 @@
 -- Submodule declaration
 TFF.Animation = {}
 
+
 -----
 -- Initialization
 -----
@@ -31,15 +32,6 @@ end
 -----
 -- Public Functions
 -----
-
--- Reset animations to starting point
-function TFF.Animation:Reset()
-    self.inCombatTimeline:Stop()
-    self.inCombatTimeline:SetProgress(0)
-    
-    self.outOfCombatTimeline:Stop()
-    self.outOfCombatTimeline:SetProgress(0)
-end
 
 -- Play the In-Combat animation
 function TFF.Animation:PlayInCombat()
@@ -72,4 +64,13 @@ function TFF.Animation:RewindInCombat()
     -- Unhide and play
     TFF.TARGET_FRAME:SetHidden(false)
     self.inCombatTimeline:PlayForward()
+end
+
+-- Reset animations to starting point
+function TFF.Animation:Reset()
+    self.inCombatTimeline:Stop()
+    self.inCombatTimeline:SetProgress(0)
+    
+    self.outOfCombatTimeline:Stop()
+    self.outOfCombatTimeline:SetProgress(0)
 end
