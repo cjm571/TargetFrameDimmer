@@ -12,14 +12,15 @@ TFD.addonVersion    = 1.0
 TFD.settingsVersion = 1.0
 
 TFD.defaults = {
-    ["fadeDurationMs"]      = 500,
-    ["inCombatOpacity"]     = 100,
-    ["outOfCombatOpacity"]  = 50,
+    ["inCombatFadeDurationMs"]      = 250,
+    ["inCombatOpacity"]             = 100,
+    ["outOfCombatFadeDurationMs"]   = 500,
+    ["outOfCombatOpacity"]          = 50,
 }
 
 
 -----
--- Top-level initialization
+-- Top-level Initialization
 -----
 function TFD.Initialize(eventCode, addOnName)
     -- Only do stuff for TFD
