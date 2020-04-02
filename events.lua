@@ -7,7 +7,12 @@
 
 -- Submodule declaration
 TFF.Events = {}
+
+-- Module variables
 TFF.Events.lastTargetLost = false -- indicates last reticle event was for an empty target
+
+-- Constants
+TFF.Events.CALL_LATER_DELAY_MS = 10
 
 
 -----
@@ -23,11 +28,11 @@ local function targetAcquired()
     if IsUnitInCombat("player") then
         zo_callLater(
             function() TFF.Animation:PlayInCombat() end,
-            1)
+            TFF.Events.CALL_LATER_DELAY_MS)
     else
         zo_callLater(
             function() TFF.Animation:PlayOutOfCombat() end,
-            1)
+            TFF.Events.CALL_LATER_DELAY_MS)
     end
 end
 
